@@ -26,4 +26,4 @@ Now you can add this blueprints repository with the following command:
 
 To update the craft-blueprints-community repository run:
 
-```craft craft-blueprints-community```
+```craft -i craft-blueprints-community```
