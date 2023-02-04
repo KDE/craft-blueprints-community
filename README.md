@@ -24,4 +24,6 @@ Now you can add this blueprints repository with the following command:
 
 ```craft --add-blueprint-repository https://invent.kde.org/packaging/craft-blueprints-community.git```
 
-Use the same command to update the craft-blueprints-community repository in your Craft setup.
+To update the craft-blueprints-community repository run:
+
+```craft craft-blueprints-community```
