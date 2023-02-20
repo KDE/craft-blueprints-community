@@ -42,6 +42,11 @@ class Package(CMakePackageBase):
         # enable submodule checkout
         self.subinfo.options.fetch.checkoutSubmodules = True
 
+    def make(self):
+        translations_cmd = Arguments.formatCommand([self.makeProgram], "translations")
+        return super().make() and utils.system(translations_cmd)
+
+
     def install(self):
         if not super().install():
             return False
@@ -60,7 +65,6 @@ class Package(CMakePackageBase):
         self.ignoredPackages.append("binary/mysql")
         if not CraftCore.compiler.isLinux:
             self.ignoredPackages.append("libs/dbus")
-
 
         self.defines["appname"] = "Glaxnimate"
         #self.defines["icon"] = os.path.join(self.sourceDir(), "data", "icons", "kdenlive.ico")
