@@ -13,7 +13,6 @@ class subinfo(info.infoclass):
             self.targets[ ver ] = f"https://gitlab.com/mattbas/glaxnimate/-/archive/{ver}/glaxnimate-{ver}.tar.gz"
             self.targetInstSrc[ ver ] = "glaxnimate-" + ver
 
-        self.patchToApply['master'] = [("0001_fix_android_build.patch", 1)]
         self.patchLevel['master'] = 1
 
         self.svnTargets['master'] = 'https://gitlab.com/mattbas/glaxnimate.git'
@@ -55,6 +54,8 @@ class Package(CMakePackageBase):
             utils.copyFile(os.path.join(self.buildDir(), "external", "Qt-Color-Widgets", f"libQtColorWidgets.so.2.2.0"), os.path.join(self.installDir(), "lib", f"libQtColorWidgets.so.2.2.0"))
             utils.copyFile(os.path.join(self.buildDir(), "external", "Qt-Color-Widgets", f"libQtColorWidgets.so.2"), os.path.join(self.installDir(), "lib", f"libQtColorWidgets.so.2"))
             utils.copyFile(os.path.join(self.buildDir(), "external", "Qt-Color-Widgets", f"libQtColorWidgets.so"), os.path.join(self.installDir(), "lib", f"libQtColorWidgets.so"))
+        if CraftCore.compiler.isAndroid:
+            utils.copyFile(os.path.join(self.buildDir(), "android-build", "libs", CraftCore.compiler.androidAbi, f"libQtColorWidgets_{CraftCore.compiler.androidAbi}.so"), os.path.join(self.installDir(), "lib", f"libQtColorWidgets_{CraftCore.compiler.androidAbi}.so"))
         if CraftCore.compiler.isWindows:
             utils.copyFile(os.path.join(self.buildDir(), "external", "Qt-Color-Widgets", f"libQtColorWidgets.dll"), os.path.join(self.installDir(), "bin", f"libQtColorWidgets.dll"))
         return True
