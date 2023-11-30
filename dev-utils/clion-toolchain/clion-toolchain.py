@@ -37,7 +37,7 @@ class Package(VirtualPackageBase):
             scriptPath = self.imageDir() / "etc/clion-craftenv.sh"
             if not utils.createDir(scriptPath.parent):
                 return False
-            with scriptPath.open("wt", encoding="UTF-8", newline="\r\n") as out:
+            with scriptPath.open("wt", encoding="UTF-8", newline="\n") as out:
                 lines = ["# This file is auto generated, don't change it", "# To update it run craft -i clion-toolchain"] + [
                     f"export {shlex.quote(k)}={shlex.quote(v)}" for k, v in os.environ.items()
                 ]
