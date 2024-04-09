@@ -38,8 +38,8 @@ from Package.CMakePackageBase import *
 from Utils import GetFiles
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        CMakePackageBase.__init__(self)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DWINDOWS_DEPLOY=OFF"]
 
     def setDefaults(self, defines: {str:str}) -> {str:str}:
@@ -70,4 +70,3 @@ class Package(CMakePackageBase):
         self.defines["mimetypes"] = ["application/vnd.mlt+xml"]
         self.defines["file_types"] = [".mlt"]
         return super().createPackage()
-
