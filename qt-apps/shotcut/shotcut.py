@@ -29,9 +29,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtnetworkauth"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/mlt"] = None
-        if not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["libs/frei0r-bigsh0t"] = None
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.runtimeDependencies["libs/drmingw"] = None
 
 from Package.CMakePackageBase import *
@@ -44,7 +44,7 @@ class Package(CMakePackageBase):
 
     def setDefaults(self, defines: {str:str}) -> {str:str}:
         defines = super().setDefaults(defines)
-        if OsUtils.isLinux() and isinstance(self, AppImagePackager):
+        if CraftCore.compiler.platform.isLinux() and isinstance(self, AppImagePackager):
             defines["runenv"] += [
                 'LD_LIBRARY_PATH=$this_dir/usr/lib/:$LD_LIBRARY_PATH',
                 'MLT_REPOSITORY=$this_dir/usr/lib/mlt-7/',
@@ -64,8 +64,8 @@ class Package(CMakePackageBase):
         self.ignoredPackages.append("binary/mysql")
 
         self.defines["appname"] = "org.shotcut.Shotcut"
-        self.defines["icon"] = os.path.join(self.sourceDir(), "packaging", "windows", "shotcut-logo-64.ico")
-        self.defines["icon_png"] = os.path.join(self.sourceDir(), "icons", "shotcut-logo-64.png")
+        self.defines["icon"] = self.sourceDir() / "packaging/windows/shotcut-logo-64.ico"
+        self.defines["icon_png"] = self.sourceDir() / "icons/shotcut-logo-64.png"
         self.defines["shortcuts"] = [{"name" : "Shotcut", "target":"bin/shotcut.exe", "description" : self.subinfo.description}]
         self.defines["mimetypes"] = ["application/vnd.mlt+xml"]
         self.defines["file_types"] = [".mlt"]

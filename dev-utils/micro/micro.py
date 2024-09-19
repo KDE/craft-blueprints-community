@@ -41,8 +41,8 @@ class Package(BinaryPackageBase):
 
     def postInstall(self):
         return utils.createShim(
-            self.imageDir() / f"dev-utils/bin/micro{CraftCore.compiler.executableSuffix}",
-            self.imageDir() / f"dev-utils/micro/micro{CraftCore.compiler.executableSuffix}",
+            self.imageDir() / f"dev-utils/bin/micro{CraftCore.compiler.platform.executableSuffix}",
+            self.imageDir() / f"dev-utils/micro/micro{CraftCore.compiler.platform.executableSuffix}",
         )
 
     def postQmerge(self):
