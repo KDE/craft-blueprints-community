@@ -6,7 +6,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["master"]:
+        for ver in ["dev", "master"]:
             self.svnTargets[ver] = f"https://invent.kde.org/packaging/craft-blueprints-community.git|{ver}|"
         self.defaultTarget = "master"
 
