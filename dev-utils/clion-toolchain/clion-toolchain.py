@@ -4,6 +4,7 @@
 import shlex
 
 import info
+from Utils.CaseInsensitiveDict import CaseInsensitiveDict
 
 
 class subinfo(info.infoclass):
@@ -23,13 +24,15 @@ class Package(VirtualPackageBase):
     def install(self):
         if not self.cleanImage():
             return False
+        environ = CaseInsensitiveDict(sorted(os.environ.items(), key=lambda t: t[0]))
+
         if CraftCore.compiler.isWindows:
             scriptPath = self.imageDir() / "etc/clion-craftenv.bat"
             if not utils.createDir(scriptPath.parent):
                 return False
             with scriptPath.open("wt", encoding="UTF-8", newline="\r\n") as out:
                 lines = [f"@echo off", "rem This file is auto generated, don't change it", "rem To update it run craft -i clion-toolchain"] + [
-                    f"set {k}={v}" for k, v in os.environ.items()
+                    f"set {k}={v}" for k, v in environ.items()
                 ]
                 out.write("\n".join(lines))
             return True
@@ -39,7 +42,7 @@ class Package(VirtualPackageBase):
                 return False
             with scriptPath.open("wt", encoding="UTF-8", newline="\n") as out:
                 lines = ["# This file is auto generated, don't change it", "# To update it run craft -i clion-toolchain"] + [
-                    f"export {shlex.quote(k)}={shlex.quote(v)}" for k, v in os.environ.items()
+                    f"export {shlex.quote(str(k))}={shlex.quote(str(v))}" for k, v in environ.items()
                 ]
                 out.write("\n".join(lines))
             return True
