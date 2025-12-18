@@ -37,11 +37,10 @@ class Package(VirtualPackageBase):
             if not utils.createDir(scriptPath.parent):
                 return False
             with scriptPath.open("wt", encoding="UTF-8", newline="\r\n") as out:
-                lines = [f"@echo off", "rem This file is auto generated, don't change it", "rem To update it run craft -i clion-toolchain"] + [
+                lines = ["@echo off", "rem This file is auto generated, don't change it", "rem To update it run craft -i clion-toolchain"] + [
                     f"set {k}={v}" for k, v in environ.items()
                 ]
                 out.write("\n".join(lines))
-            return True
         else:
             scriptPath = self.imageDir() / "etc/clion-craftenv.sh"
             if not utils.createDir(scriptPath.parent):
@@ -51,4 +50,17 @@ class Package(VirtualPackageBase):
                     f"export {shlex.quote(str(k))}={shlex.quote(str(v))}" for k, v in environ.items()
                 ]
                 out.write("\n".join(lines))
-            return True
+
+        scriptPath = self.imageDir() / "etc/clion-craftenv.cmake"
+        if not utils.createDir(scriptPath.parent):
+            return False
+        with scriptPath.open("wt", encoding="UTF-8", newline="\n") as out:
+            lines = ["# This file is auto generated, don't change it", "# To update it run craft -i clion-toolchain"]
+            for k, v in environ.items():
+                v = v.replace("\\", "\\\\")
+                k = k.replace("(", "\(").replace(")", "\)")
+                lines.append( f"set(ENV{{{k}}} \"{v}\")")
+            lines.append("message(STATUS \"Craft toolchain for: $ENV{CRAFTROOT} is used\")")
+            out.write("\n".join(lines))
+
+        return True
