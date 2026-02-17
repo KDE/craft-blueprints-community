@@ -29,8 +29,8 @@ class Package(VirtualPackageBase):
             return False
         environ = CaseInsensitiveDict(sorted(os.environ.items(), key=lambda t: t[0]))
         if self.supportsCCACHE:
-            environ["CXX"] = CraftCore.standardDirs.craftRoot() / "dev-utils/ccache/bin" / Path(environ["CXX"]).name
-            environ["CC"] = CraftCore.standardDirs.craftRoot() / "dev-utils/ccache/bin" / Path(environ["CC"]).name
+            environ["CXX"] = str(CraftCore.standardDirs.craftRoot() / "dev-utils/ccache/bin" / Path(environ["CXX"]).name)
+            environ["CC"] = str(CraftCore.standardDirs.craftRoot() / "dev-utils/ccache/bin" / Path(environ["CC"]).name)
 
         if CraftCore.compiler.isWindows:
             scriptPath = self.imageDir() / "etc/clion-craftenv.bat"
