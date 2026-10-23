@@ -29,9 +29,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtnetworkauth"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/mlt"] = None
-        if not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["libs/frei0r-bigsh0t"] = None
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.runtimeDependencies["libs/drmingw"] = None
 
 from Package.CMakePackageBase import *

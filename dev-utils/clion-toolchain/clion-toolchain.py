@@ -32,7 +32,7 @@ class Package(VirtualPackageBase):
             environ["CXX"] = str(CraftCore.standardDirs.craftRoot() / "dev-utils/ccache/bin" / Path(environ["CXX"]).name)
             environ["CC"] = str(CraftCore.standardDirs.craftRoot() / "dev-utils/ccache/bin" / Path(environ["CC"]).name)
 
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             scriptPath = self.imageDir() / "etc/clion-craftenv.bat"
             if not utils.createDir(scriptPath.parent):
                 return False
